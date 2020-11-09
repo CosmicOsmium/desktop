@@ -77,7 +77,7 @@ const config = {
             loader: 'ts-loader',
             options: {
               experimentalWatchApi: dev,
-              transpileOnly: true, // TODO: dev
+              transpileOnly: true, // dev,
               getCustomTransformers: () => ({
                 before: [styledComponentsTransformer],
               }),
@@ -109,6 +109,8 @@ const config = {
 
   externals: {
     keytar: `require('keytar')`,
+    'better-sqlite3': `require('better-sqlite3')`,
+    sharp: `require('sharp')`,
   },
 
   optimization: {
@@ -132,7 +134,6 @@ const config = {
 };
 
 if (dev) {
-  config.plugins.push(new ForkTsCheckerWebpackPlugin());
   config.plugins.push(new HardSourceWebpackPlugin());
 }
 

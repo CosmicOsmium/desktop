@@ -12,7 +12,7 @@
     "styled-components"
   ],
   "homepage": "https://github.com/wexond/wexond#readme",
-  "main": "build/main.bundle.js",
+  "main": "build/browser.bundle.js",
   "author": "Eryk Rakowski <sentialx@gmail.com>",
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
     "build-renderer": "webpack --config webpack.config.renderer.js",
     "pre-renderer": "cross-env PREBUILD=1 npm run build-renderer",
     "dev": "cross-env START=1 npm run watch",
-    "build": "npm run pre-renderer && concurrently \"npm run build-renderer\" \"webpack\" \"webpack --config webpack.config.web.js\"",
+    "build": "npm run pre-renderer && concurrently \"npm run build-renderer\" \"webpack\"",
     "ci-build": "node scripts/ci-build.js",
     "start": "electron .",
     "watch": "concurrently \"npm run dev-renderer\" \"npm run dev-webpack\" \"npm run dev-web\"",
@@ -43,20 +43,25 @@
   "devDependencies": {
     "@cliqz/adblocker-electron": "1.16.0",
     "@types/animejs": "^3.1.1",
+    "@types/better-sqlite3": "^5.4.0",
     "@types/chrome": "0.0.116",
     "@types/crypto-js": "^3.1.47",
     "@types/extract-zip": "^1.6.2",
     "@types/gsap": "1.20.2",
     "@types/jszip": "^3.4.1",
+    "@types/mime-types": "^2.1.0",
     "@types/nedb": "1.8.9",
     "@types/node": "14.0.13",
     "@types/node-fetch": "^2.5.7",
     "@types/react": "16.9.38",
     "@types/react-dom": "16.9.8",
+    "@types/sharp": "^0.25.0",
+    "@types/sqlstring": "^2.2.1",
     "@types/styled-components": "5.1.0",
     "@typescript-eslint/eslint-plugin": "^3.4.0",
     "@typescript-eslint/parser": "^3.4.0",
     "animejs": "^3.2.0",
+    "assign-deep": "^1.0.1",
     "awesome-node-loader": "^1.1.1",
     "axios": "0.19.2",
     "cache-loader": "^4.1.0",
@@ -80,6 +85,7 @@
     "html-webpack-plugin": "^4.3.0",
     "icojs": "^0.14.0",
     "jszip": "^3.5.0",
+    "mime-types": "^2.1.27",
     "mobx": "5.15.4",
     "mobx-react-lite": "2.0.7",
     "nedb": "1.8.0",
@@ -98,11 +104,18 @@
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.5",
     "typescript-plugin-styled-components": "^1.4.4",
+    "uuid": "^8.1.0",
+    "webidl2": "^23.12.1",
     "webpack": "4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "better-sqlite3": "^7.1.0",
+    "querystring": "^0.2.0",
+    "sharp": "^0.25.4",
+    "sqlstring": "^2.3.2"
+  }
 }

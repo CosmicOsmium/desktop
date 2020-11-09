@@ -5,23 +5,24 @@
     "include": "static/installer.nsh"
   },
   "generateUpdatesFilesForAllChannels": true,
-  "asar": true,
+  "asar": false,
   "directories": {
     "output": "dist",
     "buildResources": "static/icons"
   },
   "files": ["build/**/*", "package.json", "static/**/*"],
   "publish": "github",
+  "asarUnpack": ["build/storage.bundle.js", "package.json"],
   "linux": {
     "category": "Network",
     "target": [
       {
         "target": "AppImage",
-        "arch": ["ia32", "x64"]
+        "arch": ["x64"]
       },
       {
         "target": "deb",
-        "arch": ["ia32", "x64"]
+        "arch": ["x64"]
       }
     ]
   },

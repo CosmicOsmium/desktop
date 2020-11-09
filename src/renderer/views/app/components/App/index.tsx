@@ -12,10 +12,10 @@ import { BookmarkBar } from '../BookmarkBar';
 import {
   DEFAULT_TITLEBAR_HEIGHT,
   COMPACT_TITLEBAR_HEIGHT,
-  DEFAULT_TAB_MARGIN_TOP,
-  COMPACT_TAB_MARGIN_TOP,
   COMPACT_TAB_HEIGHT,
   DEFAULT_TAB_HEIGHT,
+  DEFAULT_TAB_MARGIN_TOP,
+  COMPACT_TAB_MARGIN_TOP,
 } from '~/constants/design';
 
 const onAppLeave = () => {
@@ -44,7 +44,6 @@ const App = observer(() => {
     <ThemeProvider
       theme={{
         ...store.theme,
-        animations: store.settings.object.animations,
         isCompact: store.isCompact,
         titlebarHeight: !store.isCompact
           ? DEFAULT_TITLEBAR_HEIGHT
@@ -58,8 +57,9 @@ const App = observer(() => {
       <StyledApp onMouseOver={store.isFullscreen ? onAppEnter : undefined} onMouseLeave={store.isFullscreen ? onAppLeave : undefined} style={{ height: !store.isFullscreen || store.titlebarVisible ? null : 0 }}>
         <UIStyle />
         <Titlebar />
-        {store.settings.object.topBarVariant === 'default' && <Toolbar />}
-        <BookmarkBar />
+        {/* {store.settings.object.topBarVariant === 'default' && <Toolbar />} */}
+        <Toolbar />
+        {/* <BookmarkBar /> */}
       </StyledApp>
       <Line
         onMouseOver={onLineEnter}

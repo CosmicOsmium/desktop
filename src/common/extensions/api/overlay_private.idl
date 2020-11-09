@@ -1,0 +1,27 @@
+namespace overlayPrivate {};
+
+dictionary PopupInfo {
+  double? x;
+  double? y;
+  boolean? visible;
+};
+
+callback GetRegionsCallback = void (sequence<sequence<double>> regions);
+
+interface Functions {
+  static void getRegions(optional GetRegionsCallback callback);
+
+  static void setRegions(sequence<sequence<double>> regions);
+
+  static void setPopupVisible(DOMString name, boolean visible);
+
+  static void setIgnoreMouseEvents(boolean flag);
+};
+
+interface Events {
+  static void onPopupToggled(DOMString name, boolean visible);
+
+  static void onBlur();
+
+  static void onRegionsUpdated(sequence<sequence<double>> regions);
+};

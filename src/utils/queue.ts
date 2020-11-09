@@ -4,10 +4,23 @@ export class Queue {
     reject: any;
     resolve: any;
   }[] = [];
-  private pendingPromise = false;
+
+  private skipMiddle = false;
+
+  private _running = false;
+
+  public get running() {
+    return this._running;
+  }
+
+  constructor(skipMiddle?: boolean) {
+    this.skipMiddle = skipMiddle;
+  }
 
   public enqueue<T>(promise: () => Promise<T>): Promise<T> {
     return new Promise((resolve, reject) => {
+      if (this.skipMiddle && this.queue.length === 1) this.queue.shift();
+
       this.queue.push({
         promise,
         resolve,
@@ -18,33 +31,24 @@ export class Queue {
     });
   }
 
-  public dequeue() {
-    if (this.pendingPromise) {
-      return false;
-    }
+  public async dequeue() {
+    if (this.running) return;
+
     const item = this.queue.shift();
-    if (!item) {
-      return false;
-    }
+
+    if (!item) return;
+
+    this._running = true;
+
     try {
-      this.pendingPromise = true;
-      item
-        .promise()
-        .then((value) => {
-          this.pendingPromise = false;
-          item.resolve(value);
-          this.dequeue();
-        })
-        .catch((err) => {
-          this.pendingPromise = false;
-          item.reject(err);
-          this.dequeue();
-        });
+      const value = await item.promise();
+      item.resolve(value);
     } catch (err) {
-      this.pendingPromise = false;
       item.reject(err);
-      this.dequeue();
     }
-    return true;
+
+    this._running = false;
+
+    this.dequeue();
   }
 }

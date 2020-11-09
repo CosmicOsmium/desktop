@@ -11,3 +11,5 @@ export * from './form-fill';
 export * from './storage';
 export * from './bounds';
 export * from './extensions';
+export * from './history';
+export * from './favicons';

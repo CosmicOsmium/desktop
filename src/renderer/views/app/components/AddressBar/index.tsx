@@ -2,9 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 
 import store from '../../store';
-import { isURL } from '~/utils';
-import { callViewMethod } from '~/utils/view';
-import { ipcRenderer } from 'electron';
+import { isURL } from '~/utils/url';
 import { ToolbarButton } from '../ToolbarButton';
 import { StyledAddressBar, InputContainer, Input, Text } from './style';
 import { ICON_SEARCH } from '~/renderer/constants';
@@ -75,14 +73,20 @@ const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const { value } = e.currentTarget;
     let url = value;
 
-    if (isURL(value)) {
+    if (isURL(value) || true) {
+      // TODO @sentialx
       url = value.indexOf('://') === -1 ? `http://${value}` : value;
     } else {
       url = store.settings.searchEngine.url.replace('%s', value);
     }
 
     store.tabs.selectedTab.addressbarValue = url;
-    callViewMethod(store.tabs.selectedTabId, 'loadURL', url);
+    browser.ipcRenderer.send(
+      'trigger-favicon-update',
+      store.tabs.selectedTab.id,
+      url,
+    );
+    browser.tabs.update(store.tabs.selectedTabId, { url });
   }
 };
 
@@ -94,7 +98,8 @@ const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const { left, width } = addressbarRef.getBoundingClientRect();
 
   if (e.currentTarget.value.trim() !== '') {
-    ipcRenderer.send(`search-show-${store.windowId}`, {
+    browser.ipcRenderer.send(`omnibox-input`, {
+      id: store.tabs.selectedTabId,
       text: e.currentTarget.value,
       cursorPos: e.currentTarget.selectionStart,
       x: left,
