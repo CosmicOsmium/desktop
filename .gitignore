@@ -13,3 +13,4 @@ chunks-entries-map.json
 storage.db
 _generated_api.js
 api.d.ts
+.idea
